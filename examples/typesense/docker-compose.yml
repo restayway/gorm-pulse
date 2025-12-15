@@ -1,0 +1,20 @@
+services:
+  typesense:
+    image: typesense/typesense:27.1
+    container_name: gormpulse-typesense
+    ports:
+      - "18108:8108"  # Host:18108 -> Container:8108
+    environment:
+      TYPESENSE_API_KEY: xyz123
+      TYPESENSE_DATA_DIR: /data
+    volumes:
+      - typesense-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/8108' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  typesense-data:

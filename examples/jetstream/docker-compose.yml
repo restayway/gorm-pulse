@@ -1,0 +1,18 @@
+services:
+  nats:
+    image: nats:2.10-alpine
+    container_name: gormpulse-jetstream
+    ports:
+      - "14223:4222"  # Client connections (host:14223 -> container:4222)
+      - "18223:8222"  # HTTP monitoring
+    command: ["--jetstream", "--store_dir", "/data", "--http_port", "8222"]
+    volumes:
+      - jetstream-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8222/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  jetstream-data:
