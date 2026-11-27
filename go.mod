@@ -1,6 +1,6 @@
 module github.com/restayway/gorm-pulse
 
-go 1.24.0
+go 1.27.4
 
 require (
 	github.com/IBM/sarama v1.46.3
